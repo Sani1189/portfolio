@@ -52,7 +52,7 @@ const CustomButton = React.forwardRef<HTMLButtonElement, CustomButtonProps>(
           className,
         )}
         ref={ref}
-        {...props}
+        {...(props as React.ComponentPropsWithoutRef<typeof motion.button>)}
       />
     )
   },

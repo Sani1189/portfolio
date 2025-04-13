@@ -481,7 +481,7 @@ export default function Hobbies() {
 
             <div className="mt-6">
               <CustomButton
-                variant="gradient"
+                variant="default"
                 size="sm"
                 glowEffect
                 onClick={() => {

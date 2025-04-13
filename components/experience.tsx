@@ -192,10 +192,17 @@ export default function Experience() {
             glowEffect
             animateOnHover
             className="px-8"
-            onClick={() => window.open("/resume.pdf", "_blank")}
           >
-            <Calendar className="w-4 h-4 mr-2" />
-            View Full Resume
+                    <a
+                      href="https://drive.google.com/file/d/1kRGHn2w3MOCh2_0wYl8ErODgTYlb6mdo"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-2 relative z-10"
+                    >
+                      <Calendar className="w-4 h-4" />
+                      View Full Resume
+                    </a>
+
           </CustomButton>
         </div>
       </div>

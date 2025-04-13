@@ -334,13 +334,13 @@ export default function Hero() {
                       transition={{ duration: 0.5 }}
                     />
                     <a
-                      href="https://drive.google.com/file/d/19z31t2d2RsBTPkxVLNVbPZKYkRCdFnny"
+                      href="https://drive.google.com/file/d/1kRGHn2w3MOCh2_0wYl8ErODgTYlb6mdo"
                       target="_blank"
                       rel="noreferrer"
                       className="flex items-center gap-2 relative z-10"
                     >
                       <Download className="w-4 h-4" />
-                      Download CV
+                      Get Resume
                     </a>
                   </CustomButton>
                 </TooltipTrigger>
