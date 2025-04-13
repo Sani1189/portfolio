@@ -13,7 +13,11 @@ export const metadata: Metadata = {
   title: "Saniul Islam Sani | Full Stack Engineer",
   description:
     "Portfolio website of Saniul Islam Sani, a Full Stack Engineer specializing in Next.js, React, and modern web technologies.",
-  generator: "v0.dev",
+    icons: {
+      icon: "/icon.png;",
+      shortcut: "/icon.png",
+      apple: "/icon.png",
+    },
 }
 
 export default function RootLayout({
