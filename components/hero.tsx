@@ -430,7 +430,7 @@ export default function Hero() {
         <Parallax
       speed={0.1}
       direction="up"
-      className="flex-1 flex justify-center items-center w-full px-4 sm:px-6"
+      className="flex-1 flex justify-center items-center w-full px-4 py-20"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
@@ -626,8 +626,8 @@ export default function Hero() {
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer"
         onClick={scrollToNext}
       >
-        <motion.div className="flex flex-col items-center" whileHover={{ scale: 1.1 }}>
-          <span className="text-sm text-primary/80 mb-2">Explore More</span>
+        <motion.div className="flex flex-col items-center " whileHover={{ scale: 1.1 }}>
+          <span className="text-sm text-primary/80 mb-2 ">Explore More</span>
           <motion.div
             className="w-20 h-8 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden relative"
             whileTap={{ scale: 0.95 }}
