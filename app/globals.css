@@ -596,26 +596,48 @@
     left: 100%;
   }
 
-  /* Responsive padding adjustments for mobile */
+  /* Enhanced responsive padding adjustments for mobile */
   @media (max-width: 640px) {
     section,
     article,
     .card,
-    .custom-card {
-      padding-left: 1rem !important;
-      padding-right: 1rem !important;
+    .custom-card,
+    [class*="card-"],
+    .container,
+    .content-container {
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
     }
 
     .card-content,
     .card-header,
-    .card-footer {
-      padding-left: 0.75rem !important;
-      padding-right: 0.75rem !important;
+    .card-footer,
+    .section-content,
+    .content-wrapper {
+      padding-left: 0.25rem !important;
+      padding-right: 0.25rem !important;
     }
 
-    .section-content {
+    /* Fix for hero section on mobile */
+    #home .container {
       padding-left: 0.5rem !important;
       padding-right: 0.5rem !important;
+      gap: 1rem !important;
+    }
+
+    /* Ensure text doesn't overflow on mobile */
+    h1,
+    h2,
+    h3 {
+      word-break: break-word;
+      hyphens: auto;
+    }
+
+    /* Keep essential animations even on mobile */
+    .animate-float,
+    .animate-pulse-slow,
+    .animate-bounce-slow {
+      animation-duration: 6s !important; /* Slow down animations slightly for better performance */
     }
   }
 }

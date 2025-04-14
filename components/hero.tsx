@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { ChevronDown, Code, Briefcase, GraduationCap, Download, Star, Zap, Award, Sparkles } from "lucide-react"
+import { ChevronDown, Code, Briefcase, GraduationCap, Download, Zap, Award, Sparkles } from "lucide-react"
 import { GradientText, RevealText, ShimmerText } from "./text-effects"
 import { Parallax } from "./section-transitions"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useSpaceTheme } from "./theme-context"
 import { CustomButton } from "./custom-button"
 import Image from "next/image"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
@@ -33,13 +34,18 @@ export default function Hero() {
   const { themeEffects, themeColors, spaceTheme } = useSpaceTheme()
 
   const roles = ["Full Stack Engineer", "Software Architect", "Next.js Specialist", "UI/UX Developer", "Problem Solver"]
+  const isMobile = useIsMobile()
+  
 
   useEffect(() => {
     setIsVisible(true)
     setIsMounted(true)
 
+    // Generate fewer shapes on mobile
+    const shapeCount = isMobile ? 3 : 6
+
     // Generate consistent shapes
-    const generatedShapes = Array.from({ length: 6 }, (_, i) => {
+    const generatedShapes = Array.from({ length: shapeCount }, (_, i) => {
       // Use seeded values instead of pure random
       const seed = i * 0.1
       return {
@@ -61,7 +67,7 @@ export default function Hero() {
     }, 3000)
 
     return () => clearInterval(interval)
-  }, [roles.length])
+  }, [roles.length, isMobile])
 
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
@@ -216,7 +222,7 @@ export default function Hero() {
           {/* Name with consistent font size in one line */}
           <div className="relative">
             <motion.h1
-              className="text-6xl md:text-7xl font-bold mb-4 relative z-10"
+              className="text-5xl md:text-7xl font-bold mb-4 relative z-10"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
@@ -226,7 +232,7 @@ export default function Hero() {
                 from="hsl(var(--primary))"
                 to="#ffffff"
                 animate={true}
-                className="drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
+                className="text-5xl md:text-7xl font-bold drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
               />
             </motion.h1>
 
@@ -242,7 +248,7 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Animated role switcher with shimmer effect */}
+          {/* Animated role switcher with shimmer effect - simplified for mobile */}
           <div className="h-10 mb-6">
             <AnimatePresence mode="wait">
               <motion.h3
@@ -421,166 +427,195 @@ export default function Hero() {
         </motion.div>
 
         {/* Right side - Enhanced profile image and floating elements */}
-        <Parallax speed={0.1} direction="up" className="flex-1 flex justify-center items-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0.9 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative"
-          >
-            {/* Animated orbital rings */}
+        <Parallax
+      speed={0.1}
+      direction="up"
+      className="flex-1 flex justify-center items-center w-full px-4 sm:px-6"
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0.9 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+        className="relative flex justify-center items-center"
+      >
+        {/* Animated orbital rings - hidden on small screens */}
+        {!isMobile && (
+          <>
             <motion.div
-              className="absolute inset-0 w-full h-full rounded-full border-2 border-dashed border-primary/20"
-              style={{ width: "calc(100% + 60px)", height: "calc(100% + 60px)", top: -30, left: -30 }}
+              className="absolute inset-0 rounded-full border-2 border-dashed border-primary/20"
+              style={{
+                width: "calc(100% + clamp(40px, 10vw, 60px))",
+                height: "calc(100% + clamp(40px, 10vw, 60px))",
+                top: "calc(-1 * clamp(20px, 5vw, 30px))",
+                left: "calc(-1 * clamp(20px, 5vw, 30px))",
+              }}
               animate={{ rotate: 360 }}
               transition={{ duration: 40, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
             />
-
             <motion.div
-              className="absolute inset-0 w-full h-full rounded-full border-2 border-dashed border-primary/10"
-              style={{ width: "calc(100% + 120px)", height: "calc(100% + 120px)", top: -60, left: -60 }}
+              className="absolute inset-0 rounded-full border-2 border-dashed border-primary/10"
+              style={{
+                width: "calc(100% + clamp(80px, 20vw, 120px))",
+                height: "calc(100% + clamp(80px, 20vw, 120px))",
+                top: "calc(-1 * clamp(40px, 10vw, 60px))",
+                left: "calc(-1 * clamp(40px, 10vw, 60px))",
+              }}
               animate={{ rotate: -360 }}
               transition={{ duration: 60, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
             />
+          </>
+        )}
 
-            {/* Enhanced profile image with glowing border and effects */}
-            <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary/30 p-1 group">
-              <motion.div
-                className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 to-primary/5"
-                animate={{
-                  background: [
-                    "radial-gradient(circle, hsl(var(--primary)/0.3) 0%, transparent 70%)",
-                    "radial-gradient(circle, hsl(var(--primary)/0.1) 30%, transparent 70%)",
-                    "radial-gradient(circle, hsl(var(--primary)/0.3) 0%, transparent 70%)",
-                  ],
-                }}
-                transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY }}
-              />
-
-              <div className="relative w-full h-full rounded-full overflow-hidden">
-                {/* PNG profile image with transparent background */}
-                <Image
-                  src="/sani.png"
-                  alt="Saniul Islam Sani"
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  priority
-                />
-                {/* Note: Replace with actual PNG image path */}
-                {/* Example: src="/images/profile-transparent.png" */}
-
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-60" />
-              </div>
-
-              {/* Animated glow effect */}
-              <motion.div
-                className="absolute inset-0 rounded-full"
-                animate={{
-                  boxShadow: [
-                    `0 0 20px 0 hsl(var(--primary)/0.3)`,
-                    `0 0 30px 5px hsl(var(--primary)/0.4)`,
-                    `0 0 20px 0 hsl(var(--primary)/0.3)`,
-                  ],
-                }}
-                transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
-              />
-            </div>
-
-            {/* Enhanced floating skill badges with animations */}
+        {/* Enhanced profile image with glowing border */}
+        <div
+          className="relative w-[clamp(180px,45vw,240px)] h-[clamp(180px,45vw,240px)] 
+                     sm:w-[clamp(200px,40vw,280px)] sm:h-[clamp(200px,40vw,280px)] 
+                     md:w-[clamp(240px,35vw,320px)] md:h-[clamp(240px,35vw,320px)] 
+                     rounded-full overflow-hidden border-4 border-primary/30 p-1 group"
+        >
+          {!isMobile && (
             <motion.div
-              initial={{ opacity: 0, y: 20, x: -20 }}
-              animate={{ opacity: 1, y: 0, x: 0 }}
-              transition={{ delay: 0.8, ...getAnimationStyle() }}
-              className="absolute -top-4 -left-8 bg-background/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-primary/20 shadow-lg"
-              whileHover={{
-                scale: 1.1,
-                backgroundColor: "hsl(var(--background)/0.95)",
-                borderColor: "hsl(var(--primary)/0.4)",
-                boxShadow: "0 0 15px hsl(var(--primary)/0.3)",
+              className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 to-primary/5"
+              animate={{
+                background: [
+                  "radial-gradient(circle, hsl(var(--primary)/0.3) 0%, transparent 70%)",
+                  "radial-gradient(circle, hsl(var(--primary)/0.1) 30%, transparent 70%)",
+                  "radial-gradient(circle, hsl(var(--primary)/0.3) 0%, transparent 70%)",
+                ],
               }}
-            >
-              <div className="flex items-center gap-2">
-                <motion.div
-                  animate={{ rotate: [0, 10, 0, -10, 0] }}
-                  transition={{ duration: 5, repeat: Number.POSITIVE_INFINITY }}
-                >
-                  <Code className="w-4 h-4 text-primary" />
-                </motion.div>
-                <span className="text-sm font-medium">React.js</span>
-              </div>
-            </motion.div>
+              transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY }}
+            />
+          )}
 
-            <motion.div
-              initial={{ opacity: 0, y: 20, x: 20 }}
-              animate={{ opacity: 1, y: 0, x: 0 }}
-              transition={{ delay: 1.0, ...getAnimationStyle() }}
-              className="absolute top-1/4 -right-12 bg-background/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-primary/20 shadow-lg"
-              whileHover={{
-                scale: 1.1,
-                backgroundColor: "hsl(var(--background)/0.95)",
-                borderColor: "hsl(var(--primary)/0.4)",
-                boxShadow: "0 0 15px hsl(var(--primary)/0.3)",
-              }}
-            >
-              <div className="flex items-center gap-2">
-                <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                >
-                  <Code className="w-4 h-4 text-primary" />
-                </motion.div>
-                <span className="text-sm font-medium">Next.js</span>
-              </div>
-            </motion.div>
+          <div className="relative w-full h-full rounded-full overflow-hidden">
+            <Image
+              src="/sani.png"
+              alt="Saniul Islam Sani"
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-60" />
+          </div>
 
+          {/* Animated glow effect - simplified for mobile */}
+          {!isMobile && (
             <motion.div
-              initial={{ opacity: 0, y: 20, x: -20 }}
-              animate={{ opacity: 1, y: 0, x: 0 }}
-              transition={{ delay: 1.2, ...getAnimationStyle() }}
-              className="absolute bottom-1/4 -left-12 bg-background/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-primary/20 shadow-lg"
-              whileHover={{
-                scale: 1.1,
-                backgroundColor: "hsl(var(--background)/0.95)",
-                borderColor: "hsl(var(--primary)/0.4)",
-                boxShadow: "0 0 15px hsl(var(--primary)/0.3)",
+              className="absolute inset-0 rounded-full"
+              animate={{
+                boxShadow: [
+                  `0 0 20px 0 hsl(var(--primary)/0.3)`,
+                  `0 0 30px 5px hsl(var(--primary)/0.4)`,
+                  `0 0 20px 0 hsl(var(--primary)/0.3)`,
+                ],
               }}
-            >
-              <div className="flex items-center gap-2">
-                <motion.div
-                  animate={{ y: [0, -3, 0, 3, 0] }}
-                  transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
-                >
-                  <Briefcase className="w-4 h-4 text-primary" />
-                </motion.div>
-                <span className="text-sm font-medium">Full Stack</span>
-              </div>
-            </motion.div>
+              transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
+            />
+          )}
+        </div>
 
+        {/* Floating skill tags - adjusted positioning for responsiveness */}
+        <motion.div
+          initial={{ opacity: 0, y: 20, x: -20 }}
+          animate={{ opacity: 1, y: 0, x: 0 }}
+          transition={{ delay: 0.8, ...getAnimationStyle() }}
+          className="absolute top-[-1rem] left-[-2rem] sm:top-[-1.5rem] sm:left-[-3rem] 
+                     bg-background/90 backdrop-blur-md px-2 py-1 rounded-full 
+                     border border-primary/20 shadow-lg"
+          whileHover={{
+            scale: 1.1,
+            backgroundColor: "hsl(var(--background)/0.95)",
+            borderColor: "hsl(var(--primary)/0.4)",
+            boxShadow: "0 0 15px hsl(var(--primary)/0.3)",
+          }}
+        >
+          <div className="flex items-center gap-1.5">
             <motion.div
-              initial={{ opacity: 0, y: 20, x: 20 }}
-              animate={{ opacity: 1, y: 0, x: 0 }}
-              transition={{ delay: 1.4, ...getAnimationStyle() }}
-              className="absolute -bottom-4 right-0 bg-background/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-primary/20 shadow-lg"
-              whileHover={{
-                scale: 1.1,
-                backgroundColor: "hsl(var(--background)/0.95)",
-                borderColor: "hsl(var(--primary)/0.4)",
-                boxShadow: "0 0 15px hsl(var(--primary)/0.3)",
-              }}
+              animate={{ rotate: [0, 10, 0, -10, 0] }}
+              transition={{ duration: 5, repeat: Number.POSITIVE_INFINITY }}
             >
-              <div className="flex items-center gap-2">
-                <motion.div
-                  animate={{ rotate: [0, 0, 10, -10, 0] }}
-                  transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY }}
-                >
-                  <GraduationCap className="w-4 h-4 text-primary" />
-                </motion.div>
-                <span className="text-sm font-medium">Software Engineer</span>
-              </div>
+              <Code className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
             </motion.div>
-          </motion.div>
-        </Parallax>
+            <span className="text-xs sm:text-sm font-medium whitespace-nowrap">React.js</span>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20, x: 20 }}
+          animate={{ opacity: 1, y: 0, x: 0 }}
+          transition={{ delay: 1.0, ...getAnimationStyle() }}
+          className="absolute top-[25%] right-[-2rem] sm:right-[-3.5rem] 
+                     bg-background/90 backdrop-blur-md px-2 py-1 rounded-full 
+                     border border-primary/20 shadow-lg"
+          whileHover={{
+            scale: 1.1,
+            backgroundColor: "hsl(var(--background)/0.95)",
+            borderColor: "hsl(var(--primary)/0.4)",
+            boxShadow: "0 0 15px hsl(var(--primary)/0.3)",
+          }}
+        >
+          <div className="flex items-center gap-1.5">
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+            >
+              <Code className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
+            </motion.div>
+            <span className="text-xs sm:text-sm font-medium whitespace-nowrap">Next.js</span>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20, x: -20 }}
+          animate={{ opacity: 1, y: 0, x: 0 }}
+          transition={{ delay: 1.2, ...getAnimationStyle() }}
+          className="absolute bottom-[25%] left-[-2rem] sm:left-[-3.5rem] 
+                     bg-background/90 backdrop-blur-md px-2 py-1 rounded-full 
+                     border border-primary/20 shadow-lg"
+          whileHover={{
+            scale: 1.1,
+            backgroundColor: "hsl(var(--background)/0.95)",
+            borderColor: "hsl(var(--primary)/0.4)",
+            boxShadow: "0 0 15px hsl(var(--primary)/0.3)",
+          }}
+        >
+          <div className="flex items-center gap-1.5">
+            <motion.div
+              animate={{ y: [0, -3, 0, 3, 0] }}
+              transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
+            >
+              <Briefcase className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
+            </motion.div>
+            <span className="text-xs sm:text-sm font-medium whitespace-nowrap">Full Stack</span>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20, x: 20 }}
+          animate={{ opacity: 1, y: 0, x: 0 }}
+          transition={{ delay: 1.4, ...getAnimationStyle() }}
+          className="absolute bottom-[-1rem] right-[-1rem] sm:right-[-2rem] 
+                     bg-background/90 backdrop-blur-md px-2 py-1 rounded-full 
+                     border border-primary/20 shadow-lg"
+          whileHover={{
+            scale: 1.1,
+            backgroundColor: "hsl(var(--background)/0.95)",
+            borderColor: "hsl(var(--primary)/0.4)",
+            boxShadow: "0 0 15px hsl(var(--primary)/0.3)",
+          }}
+        >
+          <div className="flex items-center gap-1.5">
+            <motion.div
+              animate={{ rotate: [0, 0, 10, -10, 0] }}
+              transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY }}
+            >
+              <GraduationCap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
+            </motion.div>
+            <span className="text-xs sm:text-sm font-medium whitespace-nowrap">Software Engineer</span>
+          </div>
+        </motion.div>
+      </motion.div>
+    </Parallax>
       </motion.div>
 
       {/* New scroll indicator with horizontal animation */}

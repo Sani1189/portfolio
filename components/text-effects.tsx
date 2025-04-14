@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef, useMemo } from "react"
+import { useEffect, useState, useRef } from "react"
 import { motion, useAnimation, useInView } from "framer-motion"
 import { useSpaceTheme } from "./theme-context"
 
@@ -164,17 +164,12 @@ interface ShimmerTextProps {
   className?: string
 }
 
-export function ShimmerText({ text, className = "" }: ShimmerTextProps) {
-  const { themeColors } = useSpaceTheme()
-
+export function ShimmerText({ text, className = "" }: { text: string; className?: string }) {
   return (
-    <span className={`relative inline-block ${className}`}>
-      <span
-        className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary bg-[length:200%_100%]"
-
-      >
-        {text}
-      </span>
+    <span
+      className={`animate-shimmer bg-clip-text text-transparent bg-gradient-to-r from-primary via-white to-primary bg-[length:200%_100%] ${className}`}
+    >
+      {text}
     </span>
   )
 }
@@ -249,54 +244,27 @@ interface GradientTextProps {
 
 export function GradientText({
   text,
+  from = "hsl(var(--primary))",
+  to = "hsl(var(--primary)/0.8)",
   animate = false,
   className = "",
-  from = "hsl(var(--primary))",
-  to = "#ffffff",
-}: GradientTextProps) {
-  // Create a stable ID for the gradient
-  const stableId = useMemo(() => {
-    let hash = 0
-    for (let i = 0; i < text.length; i++) {
-      hash = (hash << 5) - hash + text.charCodeAt(i)
-      hash = hash & hash
-    }
-    return `gradient-${Math.abs(hash).toString(36).substring(0, 7)}`
-  }, [text])
-
+}: {
+  text: string
+  from?: string
+  to?: string
+  animate?: boolean
+  className?: string
+}) {
   return (
-    <>
-      {/* Define the gradient in a global SVG */}
-      <svg width="0" height="0" style={{ position: "absolute" }}>
-        <defs>
-          <linearGradient id={stableId} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor={from}>
-              {animate && <animate attributeName="offset" values="0%;100%;0%" dur="4s" repeatCount="indefinite" />}
-            </stop>
-            <stop offset="100%" stopColor={to}>
-              {animate && <animate attributeName="offset" values="100%;0%;100%" dur="4s" repeatCount="indefinite" />}
-            </stop>
-          </linearGradient>
-        </defs>
-      </svg>
-
-      {/* Apply the gradient to the text */}
-      <span
-        className={className}
-        style={{
-          background: `linear-gradient(to right, ${from}, ${to})`,
-          WebkitBackgroundClip: "text",
-          backgroundClip: "text",
-          color: "transparent",
-          WebkitTextFillColor: "transparent",
-          // Fallback for browsers that don't support the gradient
-          textShadow: "0 0 1px rgba(255,255,255,0.1)",
-          display: "inline-block",
-        }}
-      >
-        {text}
-      </span>
-    </>
+    <span
+      className={`bg-clip-text text-transparent ${animate ? "animate-gradient-x" : ""} ${className}`}
+      style={{
+        backgroundImage: `linear-gradient(to right, ${from}, ${to})`,
+        backgroundSize: animate ? "200% 100%" : "100% 100%",
+      }}
+    >
+      {text}
+    </span>
   )
 }
 

@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface CustomCardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: "default" | "outline" | "gradient" | "3d"
@@ -23,6 +24,7 @@ export function CustomCard({
   const [isNebula, setIsNebula] = useState(false)
   const [isLightMode, setIsLightMode] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     setMounted(true)
@@ -109,7 +111,17 @@ export function CustomCard({
   }
 
   return (
-    <div className={cn("rounded-xl", getVariantClasses(), getGlowClasses(), getHoverClasses(), className)} {...props}>
+    <div
+      className={cn(
+        "rounded-xl",
+        getVariantClasses(),
+        getGlowClasses(),
+        getHoverClasses(),
+        isMobile ? "px-2 py-3" : "",
+        className,
+      )}
+      {...props}
+    >
       {children}
     </div>
   )
