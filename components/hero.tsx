@@ -218,18 +218,19 @@ export default function Hero() {
           <div>
             <h2 className={`text-xl font-medium text-primary mb-2 ${getTextEffectClass()}`}>Hello, I'm</h2>
           </div>
-
           <div className="relative">
-            <motion.h1
-              className="text-5xl md:text-7xl font-bold mb-4 relative z-10 text-[hsl(var(--primary))] drop-shadow-[0_0_10px_rgba(0,0,0,0.3)]"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 1.2, ease: "easeInOut" }}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
+              className="relative"
             >
-              Saniul Islam Sani
-            </motion.h1>
+              <h1 className="text-5xl md:text-7xl font-bold mb-4 z-10 text-[hsl(var(--primary))] text-left">
+                Saniul Islam Sani
+              </h1>
+            </motion.div>
 
-            {/* Decorative elements behind name */}
+            {/* Decorative background elements */}
             <motion.div
               className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full"
               initial={{ opacity: 0 }}
@@ -241,25 +242,23 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Animated role switcher with smoother animation and mobile flicker fix */}
-          <div className="h-10 mb-6 relative overflow-hidden">
+          {/* Role switcher aligned left */}
+          <div className="h-10 mb-4 overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.h3
                 key={currentRole}
-                className="absolute inset-0 flex items-center justify-center"
+                className="w-full"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.6, ease: "easeInOut" }}
               >
-                <span className="text-2xl md:text-3xl font-bold leading-tight tracking-tight text-[hsl(var(--primary))] drop-shadow-[0_0_8px_rgba(0,0,0,0.25)]">
+                <span className="block text-left text-2xl md:text-3xl font-bold leading-tight tracking-tight text-[hsl(var(--primary))]">
                   {roles[currentRole]}
                 </span>
               </motion.h3>
             </AnimatePresence>
           </div>
-
-
 
           {/* Professional description without background */}
           <div className="relative">
