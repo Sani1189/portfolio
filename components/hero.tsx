@@ -214,12 +214,11 @@ export default function Hero() {
             <span className="text-sm font-medium text-primary">Available for new opportunities</span>
           </motion.div>
 
-          {/* Simple greeting without underline */}
+          {/* Simple greeting */}
           <div>
             <h2 className={`text-xl font-medium text-primary mb-2 ${getTextEffectClass()}`}>Hello, I'm</h2>
           </div>
 
-          {/* Name with consistent font size in one line */}
           <div className="relative">
             <motion.h1
               className="text-5xl md:text-7xl font-bold mb-4 relative z-10 text-[hsl(var(--primary))] drop-shadow-[0_0_10px_rgba(0,0,0,0.3)]"
@@ -242,11 +241,12 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Animated role switcher */}
-          <div className="h-10 mb-6">
+          {/* Animated role switcher with smoother animation and mobile flicker fix */}
+          <div className="h-10 mb-6 relative overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.h3
                 key={currentRole}
+                className="absolute inset-0 flex items-center justify-center"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
@@ -258,6 +258,7 @@ export default function Hero() {
               </motion.h3>
             </AnimatePresence>
           </div>
+
 
 
           {/* Professional description without background */}
