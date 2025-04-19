@@ -194,7 +194,7 @@ export default function Experience() {
             className="px-8"
           >
                     <a
-                      href="https://drive.google.com/file/d/1kRGHn2w3MOCh2_0wYl8ErODgTYlb6mdo"
+                      href="https://drive.google.com/file/d/1BDr5cntAqSMT6bbN_rjKlw6lCCkHfb-7"
                       target="_blank"
                       rel="noreferrer"
                       className="flex items-center gap-2 relative z-10"

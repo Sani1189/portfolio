@@ -221,50 +221,44 @@ export default function Hero() {
 
           {/* Name with consistent font size in one line */}
           <div className="relative">
-            <motion.h1
-              className="text-5xl md:text-7xl font-bold mb-4 relative z-10"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-            >
-              <GradientText
-                text="Saniul Islam Sani"
-                from="hsl(var(--primary))"
-                to="#ffffff"
-                animate={true}
-                className="text-5xl md:text-7xl font-bold drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
-              />
-            </motion.h1>
+  <motion.h1
+    className="text-5xl md:text-7xl font-bold mb-4 relative z-10 text-[hsl(var(--primary))] drop-shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.4, duration: 1.2, ease: "easeInOut" }}
+  >
+    Saniul Islam Sani
+  </motion.h1>
 
-            {/* Decorative elements behind name */}
-            <motion.div
-              className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.5 }}
-              transition={{ delay: 0.6 }}
-            >
-              <div className="absolute top-0 left-0 w-20 h-20 rounded-full bg-primary/5 "></div>
-              <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-primary/5"></div>
-            </motion.div>
-          </div>
+  {/* Decorative elements behind name */}
+  <motion.div
+    className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 0.4 }}
+    transition={{ delay: 0.6, duration: 1.2, ease: "easeInOut" }}
+  >
+    <div className="absolute top-0 left-0 w-20 h-20 rounded-full bg-primary/5"></div>
+    <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-primary/5"></div>
+  </motion.div>
+</div>
 
-          {/* Animated role switcher with shimmer effect - simplified for mobile */}
-          <div className="h-10 mb-6">
-            <AnimatePresence mode="wait">
-              <motion.h3
-                key={currentRole}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 5 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.5 }}
-              >
-                <ShimmerText
-                  text={roles[currentRole]}
-                  className={`text-2xl md:text-3xl font-bold leading-tight tracking-tight drop-shadow-[0_0_8px_rgba(255,255,255,0.25)]`}
-                />
-              </motion.h3>
-            </AnimatePresence>
-          </div>
+{/* Animated role switcher */}
+<div className="h-10 mb-6">
+  <AnimatePresence mode="wait">
+    <motion.h3
+      key={currentRole}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.6, ease: "easeInOut" }}
+    >
+      <span className="text-2xl md:text-3xl font-bold leading-tight tracking-tight text-[hsl(var(--primary))] drop-shadow-[0_0_8px_rgba(0,0,0,0.25)]">
+        {roles[currentRole]}
+      </span>
+    </motion.h3>
+  </AnimatePresence>
+</div>
+
 
           {/* Professional description without background */}
           <div className="relative">
@@ -293,8 +287,7 @@ export default function Hero() {
                     animateOnHover
                     className="shadow-lg transition-all duration-300 relative overflow-hidden group"
                     style={{
-                      boxShadow: themeColors.buttonGlow,
-                      background: `linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary)/0.7))`,
+                      borderColor: `hsl(var(--primary)/0.3)`,
                     }}
                     onClick={() => {
                       const contactSection = document.getElementById("contact")
@@ -328,7 +321,7 @@ export default function Hero() {
                     variant="outline"
                     size="lg"
                     animateOnHover
-                    className="border-primary/20 hover:bg-primary/5 transition-all duration-300 relative overflow-hidden group"
+                    className="border-primary/20 hover:bg-primary/10 transition-all duration-300 relative overflow-hidden group"
                     style={{
                       borderColor: `hsl(var(--primary)/0.3)`,
                     }}
@@ -340,7 +333,7 @@ export default function Hero() {
                       transition={{ duration: 0.5 }}
                     />
                     <a
-                      href="https://drive.google.com/file/d/1kRGHn2w3MOCh2_0wYl8ErODgTYlb6mdo"
+                      href="https://drive.google.com/file/d/1BDr5cntAqSMT6bbN_rjKlw6lCCkHfb-7"
                       target="_blank"
                       rel="noreferrer"
                       className="flex items-center gap-2 relative z-10"
